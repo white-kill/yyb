@@ -18,8 +18,9 @@ class AppBarWidget extends StatefulWidget {
   final Color? backColor;
   final Color? background;
   final bool? noBackGround;
+  final double? changeDistance;
   final AppBarController? controller;
-  final Function(bool change)? onNotificationNavChange;
+  final Function(bool change, double percentage)? onNotificationNavChange;
 
   const AppBarWidget({
     super.key,
@@ -33,6 +34,7 @@ class AppBarWidget extends StatefulWidget {
     this.titleColor,
     this.onNotificationNavChange,
     this.lefItemWidth = 0,
+    this.changeDistance,
     this.backColor,
     this.background,
     this.noBackGround,
@@ -57,6 +59,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       (Get.currentRoute == '/tabs' || Get.currentRoute == '/login');
 
   bool isChange = false;
+  double _lastPercentage = 0.0; // 记录上次回调的百分比
 
 
 
@@ -91,21 +94,29 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             bottom: 0,
             right: 0,
             child: Scaffold(
-              body: NotificationListener(
-                onNotification: (ScrollUpdateNotification scrollNotification) {
+              body: NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollNotification) {
                   // if (widget.noBackGround == false) return false;
                   // print(scrollNotification.depth);
-                  if (scrollNotification.depth == 0) {
+                  if (scrollNotification.depth == 0 && scrollNotification.metrics.axis == Axis.vertical) {
                     _scrollDistance = scrollNotification.metrics.pixels;
-                    if (_scrollDistance > 20 && !isChange) {
-                      isChange = true;
-                      widget.onNotificationNavChange?.call(true);
-                    }
-                    if (_scrollDistance < 5 && isChange) {
-                      isChange = false;
-                      widget.onNotificationNavChange?.call(false);
-                    }
                     if(_scrollDistance <0) return false;
+                    
+                    final maxDistance = widget.changeDistance ?? 20;
+                    final percentage = (_scrollDistance / maxDistance).clamp(0.0, 1.0);
+                    
+                    // 检查状态变化
+                    bool newChangeState = _scrollDistance > maxDistance;
+                    bool stateChanged = newChangeState != isChange;
+                    
+                    // 只有当百分比变化超过 2% 或状态改变时才回调（减少回调频率，优化性能）
+                    if ((percentage - _lastPercentage).abs() >= 0.02 || stateChanged) {
+                      isChange = newChangeState;
+                      print('AppBarWidget 回调: distance=$_scrollDistance, max=$maxDistance, percentage=${percentage.toStringAsFixed(2)}');
+                      widget.onNotificationNavChange?.call(isChange, percentage);
+                      _lastPercentage = percentage;
+                    }
+                    
                     setState(() {});
                   }
                   return false;

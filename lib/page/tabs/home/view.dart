@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yyb/page/tabs/home/state.dart';
 import 'package:wb_base_widget/state_widget/app_bar_widget.dart';
 import 'package:wb_base_widget/state_widget/state_less_widget.dart';
+import 'package:yyb/routes/app_pages.dart';
 import 'package:yyb/utils/stack_position.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
 import 'package:wb_base_widget/text_widget/bank_text.dart';
@@ -36,7 +37,16 @@ class HomePage extends BaseStateless {
         children: [
           Stack(
             children: [
-              Image(image: ('home_1').png3x, fit: BoxFit.fitWidth, width: 1.sw),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(Routes.searchPage);
+                },
+                child: Image(
+                  image: ('home_1').png3x,
+                  fit: BoxFit.fitWidth,
+                  width: 1.sw,
+                ),
+              ),
               Positioned(
                 left: stackPosition.getX(240),
                 top: stackPosition.getY(110),
@@ -48,10 +58,7 @@ class HomePage extends BaseStateless {
                     children: [
                       BaseText(
                         text: '快对AI',
-                        style: TextStyle(
-                          fontSize: 13.w,
-                          color: Colors.black45,
-                        ),
+                        style: TextStyle(fontSize: 13.w, color: Colors.black45),
                       ),
                     ],
                   ),

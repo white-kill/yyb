@@ -16,6 +16,8 @@ mixin StateWidgetConfig {
 
   List<Widget>? get rightAction => null;
 
+  double? get scrollDistance => 0.0;
+
   bool get enablePullUp => true;
 
   bool get enablePullDown => true;
@@ -40,7 +42,7 @@ mixin StateWidgetConfig {
 
   bool get noBackGround1 => true;
 
-  Function(bool change)? get onNotificationNavChange => null;
+  Function(bool change, double percentage)? get onNotificationNavChange => null;
 
   dynamic get refreshController => null;
 

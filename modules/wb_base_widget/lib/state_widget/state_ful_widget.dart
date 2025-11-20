@@ -59,9 +59,10 @@ abstract class BaseState<T extends BaseStateful> extends State<T>
       noBackGround: noBackGround1,
       titleColor: titleColor,
       controller: appBarController,
+      changeDistance: scrollDistance,
     ):Scaffold(
       resizeToAvoidBottomInset: bottomInset,
-      backgroundColor: Colors.white,
+      backgroundColor: background ?? Colors.white,
       appBar: isShowAppBar == false ? null : AppBar(
         title:titleWidget??BaseText(
             text: widget.title??'',

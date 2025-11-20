@@ -6,10 +6,10 @@ import 'package:wb_base_widget/state_widget/state_less_widget.dart';
 import 'package:yyb/utils/stack_position.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
 import 'package:wb_base_widget/text_widget/bank_text.dart';
+import 'package:yyb/utils/sticky_widget.dart';
 
 import 'logic.dart';
 import 'state.dart';
-
 
 class YxkPage extends BaseStateless {
   YxkPage({Key? key}) : super(key: key);
@@ -26,46 +26,36 @@ class YxkPage extends BaseStateless {
   @override
   Color? get background => Colors.white;
 
+
+
+
+
   @override
   Widget initBody(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          // Stack(
-          //   children: [
-          //     Image(image: ('yxk_1').png3x, fit: BoxFit.fitWidth, width: 1.sw),
-          //     Positioned(
-          //       left: stackPosition.getX(240),
-          //       top: stackPosition.getY(110),
-          //       child: SizedBox(),
-          //     ),
-          //   ],
-          // ),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [buildImageList()],
-            ),
-          ),
-        ],
-      ),
+    return Stack(
+      children: [
+        ListView(
+          controller: logic.controller,
+          padding: EdgeInsets.zero,
+          children: [
+            Image(image: "yxk_1".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_2".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_3".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_4".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_5".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_6".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_7".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+            Image(image: "yxk_8".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+          ],
+        ),
+        Image(image: "yxk_top".png, fit: BoxFit.fitWidth, width: 1.sw),
+        StickyWidget.withController(
+          controller: logic.stickyController,
+          child: Image(image: "yxk_2".png3x, fit: BoxFit.fitWidth, width: 1.sw),
+          initialOffset: 1.sw/1080 * 1312 - 1.sw/1080 * 253,
+          stickyOffset: 1.sw/1080 * 253,
+        ),
+      ],
     );
-  }
-
-  buildImageList() {
-    List<Widget> images = [];
-    for (String assets in [
-      "yxk_1",
-      "yxk_2",
-      "yxk_3",
-      "yxk_4",
-      "yxk_5",
-      "yxk_6",
-      "yxk_7",
-      "yxk_8",
-    ]) {
-      images.add(Image(image: assets.png3x, fit: BoxFit.fitWidth, width: 1.sw));
-    }
-    return Column(children: images);
   }
 }

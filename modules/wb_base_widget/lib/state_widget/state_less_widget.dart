@@ -31,9 +31,9 @@ abstract class BaseStateless extends StatelessWidget  with StateWidgetConfig {
       backColor: backColor,
       background: background,
       noBackGround: noBackGround1,
-
       titleColor: titleColor,
       controller: appBarController,
+      changeDistance: scrollDistance,
     ):Scaffold(
       resizeToAvoidBottomInset: bottomInset,
       bottomNavigationBar: bottomNav,

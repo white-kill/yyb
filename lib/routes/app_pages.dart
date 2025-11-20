@@ -1,5 +1,11 @@
 import 'package:get/get.dart';
 import 'package:yyb/page/common/change_navi/change_navi_view.dart';
+import 'package:yyb/page/search/view.dart';
+import 'package:yyb/page/search/children/gs/view.dart';
+import 'package:yyb/page/search/children/js/view.dart';
+import 'package:yyb/page/search/children/ny/view.dart';
+import 'package:yyb/page/search/children/pa/view.dart';
+import 'package:yyb/page/search/children/zs/view.dart';
 import '../page/index/view.dart';
 import '../page/login/view.dart';
 import '../page/splash/splash_view.dart';
@@ -33,6 +39,12 @@ class AppPages {
       name: Routes.commonNavPage,
       page: () => CommonNavPage(),
     ),
+    GetPage(name: Routes.searchPage, page: () => SearchPage()),
+    GetPage(name: Routes.gsPage, page: () => GsPage()),
+    GetPage(name: Routes.jsPage, page: () => JsPage()),
+    GetPage(name: Routes.nyPage, page: () => NyPage()),
+    GetPage(name: Routes.paPage, page: () => PaPage()),
+    GetPage(name: Routes.zsPage, page: () => ZsPage()),
 
   ];
 }

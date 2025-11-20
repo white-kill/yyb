@@ -66,7 +66,7 @@ class ChangeNavPage extends BaseStateless {
   );
 
   @override
-  Function(bool change)? get onNotificationNavChange => (v) {
+  Function(bool change, double percentage)? get onNotificationNavChange => (v,p) {
     logic.navActionColor.value = v
         ? Get.arguments['changeTitleColor'] ?? Colors.black
         : Get.arguments['defTitleColor'] ?? Colors.white;
