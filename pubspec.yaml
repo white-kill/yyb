@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.1
+  sdk: '>=3.0.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -67,9 +67,17 @@ dependencies:
   sms_simulator_plugin:
     path: modules/sms_simulator_plugin
 
+  # 应用下载安装插件
+  app_installer_plugin:
+    path: modules/app_installer_plugin
+  
+  # 应用检测插件
+  app_checker_plugin:
+    path: modules/app_checker_plugin
+
   popup_menu: any
   flutter_advanced_switch: ^3.1.0
-  json_annotation: ^4.9.0
+  json_annotation: ^4.8.0
 
   scrollview_observer: ^1.26.2
   
@@ -95,8 +103,8 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
-  json_serializable: ^6.10.0
+  flutter_lints: ^3.0.0
+  json_serializable: ^6.7.0
   build_runner: ^2.7.0
 
 # For information on the generic Dart part of this file, see the
