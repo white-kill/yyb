@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yyb/routes/app_pages.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
 
+import '../../config/bank_config.dart';
 import 'logic.dart';
 import 'state.dart';
 
@@ -32,7 +33,12 @@ class SearchPage extends StatelessWidget {
                       width: 80.w,
                   ).withOnTap(onTap: () {
                     // 工商
-                    Get.toNamed(Routes.gsPage);
+                    final app = logic.findAppByBundleId(BankConfig.gsBundleId);
+                    if (app != null) {
+                      Get.toNamed(Routes.gsPage, arguments: app);
+                    } else {
+                      Get.snackbar('提示', '暂无该应用');
+                    }
                   }),
                   Container(
                       width: 80.w,
@@ -42,7 +48,12 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 平安
-                      Get.toNamed(Routes.paPage);
+                      final app = logic.findAppByBundleId(BankConfig.paBundleId);
+                      if (app != null) {
+                        Get.toNamed(Routes.paPage, arguments: app);
+                      } else {
+                        Get.snackbar('提示', '暂无该应用');
+                      }
                     }),
                   ),
 
@@ -50,7 +61,12 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 建设
-                      Get.toNamed(Routes.jsPage);
+                      final app = logic.findAppByBundleId(BankConfig.jsBundleId);
+                      if (app != null) {
+                        Get.toNamed(Routes.jsPage, arguments: app);
+                      } else {
+                        Get.snackbar('提示', '暂无该应用');
+                      }
                     }),
                   ),
 
@@ -58,7 +74,12 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 招商
-                      // Get.toNamed(Routes.zsPage);
+                      final app = logic.findAppByBundleId(BankConfig.zsBundleId);
+                      if (app != null) {
+                        Get.toNamed(Routes.zsPage, arguments: app);
+                      } else {
+                        Get.snackbar('提示', '暂无该应用');
+                      }
                     }),
                   ),
 
@@ -66,7 +87,12 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 农业
-                      Get.toNamed(Routes.nyPage);
+                      final app = logic.findAppByBundleId(BankConfig.nyBundleId);
+                      if (app != null) {
+                        Get.toNamed(Routes.nyPage, arguments: app);
+                      } else {
+                        Get.snackbar('提示', '暂无该应用');
+                      }
                     }),
                   ),
                   SizedBox(width: 15.w,),

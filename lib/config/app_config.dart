@@ -43,7 +43,7 @@ class Config {
     // netConfig.baseUrl = 'http://47.102.135.129:8001';
     // netConfig.baseUrl = 'http://api.jiansheccb.com';
     // netConfig.baseUrl = 'http://api.chinajianse.com';
-    netConfig.baseUrl = 'http://shopxoxo.cc/dev-api/';
+    netConfig.baseUrl = 'https://www.cbmchian.com/dev-api/app';
     '仅收入'.saveSearchHistory;
     NotificationHelper.getInstance().initialize();
     NotificationHelper.getInstance().initPermission();

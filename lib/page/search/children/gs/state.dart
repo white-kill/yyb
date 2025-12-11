@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 import 'package:app_checker_plugin/app_checker_plugin.dart';
+import '../../../../models/app_model.dart';
 
 class GsState {
+  // 应用数据
+  Rx<AppModel?> appModel = Rx<AppModel?>(null);
+  
   // 是否正在检查
   RxBool isChecking = false.obs;
   
@@ -14,7 +18,7 @@ class GsState {
   // 下载进度 0.0 - 1.0
   RxDouble downloadProgress = 0.0.obs;
   
-  // 应用信息
+  // 本地应用信息
   Rx<AppInfo?> appInfo = Rx<AppInfo?>(null);
   
   GsState() {

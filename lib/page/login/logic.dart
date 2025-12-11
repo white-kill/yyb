@@ -40,17 +40,6 @@ class LoginLogic extends GetxController {
       return;
     }
 
-    Http.post(Apis.login, data: {
-      "username": phone,
-      "password": password
-    }).then((value) {
-      if (value != null && value["token"] != null) {
-        'Bearer ${value["token"]}'.saveToken;
-        Http.setHeaders({'Authorization':token});
-        Get.find<YybLogic>().updateInfo();
-        Get.offAllNamed(Routes.tabs);
-      }
-    });
 
   }
 
