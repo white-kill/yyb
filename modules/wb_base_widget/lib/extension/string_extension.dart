@@ -12,10 +12,13 @@ import '../text_widget/bank_text.dart';
 extension ToastExtension on String {
   void get showLoading {
     SmartDialog.showLoading(
-        builder: (_) => WbLoadingWidget(
-          image: 'ic_loading'.png3x,
-          loadingText: this == '' ? '' : this,
-        ));
+      builder: (_) => _buildNativeLoadingWidget(),
+    );
+    // SmartDialog.showLoading(
+    //     builder: (_) => WbLoadingWidget(
+    //       image: 'ic_loading'.png3x,
+    //       loadingText: this == '' ? '' : this,
+    //     ));
   }
 
   /// 构建原生菊花转圈加载样式

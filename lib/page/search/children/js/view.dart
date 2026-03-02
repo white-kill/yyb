@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
 
@@ -19,142 +20,125 @@ class JsPage extends StatelessWidget {
         Positioned.fill(
           child: Image(image: "js_search".png, fit: BoxFit.cover),
         ),
-        
+        Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Container(
+              height: 100.w,
+            ).withOnTap(onTap: () {
+              Get.back();
+            })),
         // UI元素覆盖层
         Positioned(
-          bottom: 100,
-          left: 0,
-          right: 0,
+          top: 230.w,
+          right: 23.w,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // 应用信息
-              Obx(() {
-                if (state.isChecking.value) {
-                  return const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  );
-                }
-
-                final app = state.appModel.value;
-                if (app != null) {
-                  return Column(
-                    children: [
-                      Text(
-                        app.fileName ?? '建设银行应用',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(0, 1),
-                              blurRadius: 3.0,
-                              color: Color.fromARGB(128, 0, 0, 0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '版本: ${app.fileVersion ?? "未知"}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(0, 1),
-                              blurRadius: 3.0,
-                              color: Color.fromARGB(128, 0, 0, 0),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                }
-
-                return Container();
-              }),
-
-              const SizedBox(height: 32),
-
               // 操作按钮
               Obx(() {
                 if (state.isDownloading.value) {
-                  // 下载中显示进度
+                  // 下载中：胶囊双色文字进度按钮
                   return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
-                    padding: const EdgeInsets.all(20),
+                    width: 45.w,
+                    height: 22.w,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.95),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+                      color: Color(0xFFe8f5ff),
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Column(
-                      children: [
-                        LinearProgressIndicator(
-                          value: state.downloadProgress.value,
-                          backgroundColor: Colors.grey[200],
-                          valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-                          minHeight: 8,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          '下载中: ${(state.downloadProgress.value * 100).toStringAsFixed(1)}%',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Stack(
+                        children: [
+                          // 底层：蓝色文字
+                          Center(
+                            child: Text(
+                              '${(state.downloadProgress.value * 100).toStringAsFixed(1)}%',
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: Color(0xFF4A9EFF),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          // 上层：蓝色填充 + 白色文字，随进度从左展开
+                          TweenAnimationBuilder<double>(
+                            tween: Tween(
+                                begin: 0, end: state.downloadProgress.value),
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeOut,
+                            builder: (_, value, __) => ClipRect(
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                widthFactor: value,
+                                child: SizedBox(
+                                  width: 45.w,
+                                  height: 22.w,
+                                  child: Container(
+                                    color: const Color(0xFF4A9EFF),
+                                    child: Center(
+                                      child: Text(
+                                        '${(state.downloadProgress.value * 100).toStringAsFixed(1)}%',
+                                        style: TextStyle(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
 
                 if (state.isInstalled.value) {
-                  // 已安装显示打开按钮
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
-                    child: ElevatedButton.icon(
-                      onPressed: logic.openApp,
-                      icon: const Icon(Icons.open_in_new),
-                      label: const Text('打开应用'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        minimumSize: const Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                  // 已安装：胶囊"打开"按钮
+                  return GestureDetector(
+                    onTap: logic.openApp,
+                    child: Container(
+                      width: 42.w,
+                      height: 22.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF4A9EFF),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Text(
+                        '打开',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
                         ),
-                        elevation: 8,
                       ),
                     ),
                   );
                 } else {
-                  // 未安装显示下载按钮
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
-                    child: ElevatedButton.icon(
-                      onPressed: logic.downloadAndInstall,
-                      icon: const Icon(Icons.download),
-                      label: const Text('下载安装'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        minimumSize: const Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                  // 未安装：胶囊"更新/下载"按钮
+                  return GestureDetector(
+                    onTap: logic.downloadAndInstall,
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 45.w,
+                      height: 22.w,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFe8f5ff),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Text(
+                        '下载',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'PingFang SC',
+                          color: Color(0xFF4A9EFF),
                         ),
-                        elevation: 8,
                       ),
                     ),
                   );
@@ -163,8 +147,29 @@ class JsPage extends StatelessWidget {
             ],
           ),
         ),
+
+        ...List.generate(7, (i) => Positioned(
+            top: 230.w + 77.w * (i + 1),
+            right: 23.w,
+            child: Container(
+              alignment: Alignment.center,
+              width: 45.w,
+              height: 22.w,
+              decoration: BoxDecoration(
+                color: Color(0xFFe8f5ff),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: const Text(
+                '下载',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PingFang SC',
+                  color: Color(0xFF4A9EFF),
+                ),
+              ),
+            ))),
       ],
     );
   }
 }
-

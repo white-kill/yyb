@@ -22,6 +22,15 @@ class SearchPage extends StatelessWidget {
         children: [
           Image(image: "search".png, width: 1.sw),
           Positioned(
+              left: 0.w,
+              top: 23.w,
+              child: Container(
+                height: 50.w,
+                width: 50.w,
+              ).withOnTap(onTap: () {
+                Get.back();
+              })),
+          Positioned(
             top: 80.w,
             left: 0,
             child: SizedBox(

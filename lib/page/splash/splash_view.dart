@@ -16,6 +16,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container();
     return Image(image: 'splash'.png,width: 1.sw,height: 1.sh,fit: BoxFit.cover,);
   }
 }
