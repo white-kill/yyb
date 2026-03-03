@@ -60,24 +60,14 @@ class SearchLogic extends GetxController {
     }
   }
 
-  /// 根据bundleId查找应用
-  AppModel? findAppByBundleId(String bundleId) {
-    print('🔍 查找bundleId: $bundleId');
-    print('📋 当前应用列表数量: ${state.appList.length}');
-    
+  /// 根据文件名关键字查找应用（以服务器返回数据为准）
+  AppModel? findAppByKeyword(String keyword) {
     try {
-      final result = state.appList.firstWhere(
-        (app) => app.bundleId == bundleId,
+      return state.appList.firstWhere(
+        (app) => app.fileName?.contains(keyword) ?? false,
         orElse: () => throw Exception('Not found'),
       );
-      print('✅ 找到应用: ${result.fileName}');
-      return result;
-    } catch (e) {
-      print('❌ 未找到bundleId为 $bundleId 的应用');
-      print('当前列表中的bundleId:');
-      for (var app in state.appList) {
-        print('  - ${app.bundleId}');
-      }
+    } catch (_) {
       return null;
     }
   }

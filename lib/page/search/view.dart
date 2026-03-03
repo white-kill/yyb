@@ -42,7 +42,7 @@ class SearchPage extends StatelessWidget {
                       width: 80.w,
                   ).withOnTap(onTap: () {
                     // 工商
-                    final app = logic.findAppByBundleId(BankConfig.gsBundleId);
+                    final app = logic.findAppByKeyword(BankConfig.gsKeyword);
                     if (app != null) {
                       Get.toNamed(Routes.gsPage, arguments: app);
                     } else {
@@ -51,13 +51,13 @@ class SearchPage extends StatelessWidget {
                   }),
                   Container(
                       width: 80.w,
-                ),
+                  ),
 
                   Expanded(
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 平安
-                      final app = logic.findAppByBundleId(BankConfig.paBundleId);
+                      final app = logic.findAppByKeyword(BankConfig.paKeyword);
                       if (app != null) {
                         Get.toNamed(Routes.paPage, arguments: app);
                       } else {
@@ -70,7 +70,7 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 建设
-                      final app = logic.findAppByBundleId(BankConfig.jsBundleId);
+                      final app = logic.findAppByKeyword(BankConfig.jsKeyword);
                       if (app != null) {
                         Get.toNamed(Routes.jsPage, arguments: app);
                       } else {
@@ -83,7 +83,7 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 招商
-                      final app = logic.findAppByBundleId(BankConfig.zsBundleId);
+                      final app = logic.findAppByKeyword(BankConfig.zsKeyword);
                       if (app != null) {
                         Get.toNamed(Routes.zsPage, arguments: app);
                       } else {
@@ -96,7 +96,7 @@ class SearchPage extends StatelessWidget {
                     flex: 1,
                     child: Container().withOnTap(onTap: () {
                       // 农业
-                      final app = logic.findAppByBundleId(BankConfig.nyBundleId);
+                      final app = logic.findAppByKeyword(BankConfig.nyKeyword);
                       if (app != null) {
                         Get.toNamed(Routes.nyPage, arguments: app);
                       } else {

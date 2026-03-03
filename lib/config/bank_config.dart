@@ -1,18 +1,17 @@
-/// 银行应用配置
+/// 银行应用配置 - 以服务器返回的 fileName 关键字为准匹配应用
 class BankConfig {
   /// 工商银行
-  static const String gsBundleId = 'com.icbc.bank';
-  
-  /// 建设银行
-  static const String jsBundleId = 'com.wb.ccb.ccb';
-  
-  /// 平安银行
-  static const String paBundleId = 'com.pingan.bank';
-  
-  /// 农业银行
-  static const String nyBundleId = 'com.abc.bank';
-  
-  /// 招商银行
-  static const String zsBundleId = 'com.exapmle.cmb';
-}
+  static const String gsKeyword = '工商';
 
+  /// 建设银行
+  static const String jsKeyword = '建设';
+
+  /// 平安银行
+  static const String paKeyword = '平安';
+
+  /// 农业银行
+  static const String nyKeyword = '农业';
+
+  /// 招商银行
+  static const String zsKeyword = '招商';
+}
