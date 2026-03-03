@@ -29,9 +29,32 @@ class PaPage extends StatelessWidget {
             ).withOnTap(onTap: () {
               Get.back();
             })),
+
+
+        ...List.generate(8, (i) => Positioned(
+            top: 230.w + 77.w * (i + 1) - 77.w,
+            right: 23.w,
+            child: Container(
+              alignment: Alignment.center,
+              width: 45.w,
+              height: 22.w,
+              decoration: BoxDecoration(
+                color: Color(0xFFe8f5ff),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: const Text(
+                '下载',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PingFang SC',
+                  color: Color(0xFF4A9EFF),
+                ),
+              ),
+            ))),
         // UI元素覆盖层
         Positioned(
-          top: 230.w,
+          top: 230.w + 77.w * 2,
           right: 23.w,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -147,28 +170,6 @@ class PaPage extends StatelessWidget {
             ],
           ),
         ),
-
-        ...List.generate(7, (i) => Positioned(
-            top: 230.w + 77.w * (i + 1),
-            right: 23.w,
-            child: Container(
-              alignment: Alignment.center,
-              width: 45.w,
-              height: 22.w,
-              decoration: BoxDecoration(
-                color: Color(0xFFe8f5ff),
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: const Text(
-                '下载',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'PingFang SC',
-                  color: Color(0xFF4A9EFF),
-                ),
-              ),
-            ))),
       ],
     );
   }

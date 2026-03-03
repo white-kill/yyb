@@ -1,45 +1,41 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 /// 权限请求工具
 class PermissionUtil {
+  static int? _androidSdkInt;
+
+  static Future<int> _getSdkInt() async {
+    if (_androidSdkInt != null) return _androidSdkInt!;
+    final info = await DeviceInfoPlugin().androidInfo;
+    _androidSdkInt = info.version.sdkInt;
+    return _androidSdkInt!;
+  }
+
   /// 请求存储权限
   static Future<bool> requestStoragePermission() async {
-    if (!Platform.isAndroid) {
-      return true;
-    }
+    if (!Platform.isAndroid) return true;
 
-    // Android 13及以上不需要存储权限
-    if (Platform.version.contains('Android 13') ||
-        Platform.version.contains('Android 14') ||
-        Platform.version.contains('Android 15')) {
-      return true;
-    }
+    final sdk = await _getSdkInt();
 
-    // 检查权限状态
+    // Android 13+（SDK 33+）使用分类媒体权限，下载到公共目录不需要额外申请
+    if (sdk >= 33) return true;
+
     var status = await Permission.storage.status;
-    if (status.isGranted) {
-      return true;
-    }
+    if (status.isGranted) return true;
 
-    // 请求权限
     status = await Permission.storage.request();
     return status.isGranted;
   }
 
   /// 请求安装权限
   static Future<bool> requestInstallPermission() async {
-    if (!Platform.isAndroid) {
-      return true;
-    }
+    if (!Platform.isAndroid) return true;
 
-    // Android 8.0及以上需要安装权限
     var status = await Permission.requestInstallPackages.status;
-    if (status.isGranted) {
-      return true;
-    }
+    if (status.isGranted) return true;
 
-    // 请求权限
     status = await Permission.requestInstallPackages.request();
     return status.isGranted;
   }
@@ -51,16 +47,10 @@ class PermissionUtil {
 
   /// 检查存储权限
   static Future<bool> checkStoragePermission() async {
-    if (!Platform.isAndroid) {
-      return true;
-    }
+    if (!Platform.isAndroid) return true;
 
-    // Android 13及以上不需要存储权限
-    if (Platform.version.contains('Android 13') ||
-        Platform.version.contains('Android 14') ||
-        Platform.version.contains('Android 15')) {
-      return true;
-    }
+    final sdk = await _getSdkInt();
+    if (sdk >= 33) return true;
 
     final status = await Permission.storage.status;
     return status.isGranted;
@@ -68,9 +58,7 @@ class PermissionUtil {
 
   /// 检查安装权限
   static Future<bool> checkInstallPermission() async {
-    if (!Platform.isAndroid) {
-      return true;
-    }
+    if (!Platform.isAndroid) return true;
 
     final status = await Permission.requestInstallPackages.status;
     return status.isGranted;
