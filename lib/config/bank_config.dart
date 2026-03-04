@@ -14,4 +14,7 @@ class BankConfig {
 
   /// 招商银行
   static const String zsKeyword = '招商';
+
+  /// 邮政银行
+  static const String yzKeyword = '邮政';
 }

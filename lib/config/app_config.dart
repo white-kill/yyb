@@ -7,6 +7,7 @@ import 'package:yyb/utils/sp_util.dart';
 import 'package:sp_util/sp_util.dart';
 import 'dart:io' show Platform;
 import '../utils/local_notifications.dart';
+import '../services/app_install_service.dart';
 import 'yyb_config/yyb_logic.dart';
 import 'net_config/net_config.dart';
 
@@ -49,6 +50,7 @@ class Config {
     '仅收入'.saveSearchHistory;
     NotificationHelper.getInstance().initialize();
     NotificationHelper.getInstance().initPermission();
+    await Get.putAsync(() async => AppInstallService());
     yybLogic = Get.put(YybLogic());
   }
 

@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
 
 import 'logic.dart';
-import 'state.dart';
 
 class ZsPage extends StatelessWidget {
   ZsPage({Key? key}) : super(key: key);
 
   final ZsLogic logic = Get.put(ZsLogic());
-  final ZsState state = Get.find<ZsLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class ZsPage extends StatelessWidget {
             children: [
               // 操作按钮
               Obx(() {
-                if (state.isDownloading.value) {
+                if (logic.installState.isDownloading.value) {
                   // 下载中：胶囊双色文字进度按钮
                   return Container(
                     width: 45.w,
@@ -54,7 +52,7 @@ class ZsPage extends StatelessWidget {
                           // 底层：蓝色文字
                           Center(
                             child: Text(
-                              '${(state.downloadProgress.value * 100).toStringAsFixed(1)}%',
+                              '${(logic.installState.downloadProgress.value * 100).toStringAsFixed(1)}%',
                               style: TextStyle(
                                 fontSize: 11.sp,
                                 color: Color(0xFF4A9EFF),
@@ -64,7 +62,7 @@ class ZsPage extends StatelessWidget {
                           // 上层：蓝色填充 + 白色文字，随进度从左展开
                           TweenAnimationBuilder<double>(
                             tween: Tween(
-                                begin: 0, end: state.downloadProgress.value),
+                                begin: 0, end: logic.installState.downloadProgress.value),
                             duration: const Duration(milliseconds: 400),
                             curve: Curves.easeOut,
                             builder: (_, value, __) => ClipRect(
@@ -78,7 +76,7 @@ class ZsPage extends StatelessWidget {
                                     color: const Color(0xFF4A9EFF),
                                     child: Center(
                                       child: Text(
-                                        '${(state.downloadProgress.value * 100).toStringAsFixed(1)}%',
+                                        '${(logic.installState.downloadProgress.value * 100).toStringAsFixed(1)}%',
                                         style: TextStyle(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w500,
@@ -97,7 +95,7 @@ class ZsPage extends StatelessWidget {
                   );
                 }
 
-                if (state.isInstalled.value) {
+                if (logic.installState.isInstalled.value) {
                   // 已安装：胶囊"打开"按钮
                   return GestureDetector(
                     onTap: logic.openApp,

@@ -35,28 +35,24 @@ class AppInstaller {
     }
 
     try {
-      // 更新任务状态为安装中
-      task.status = DownloadStatus.installing;
-      task.onStatusChange?.call(DownloadStatus.installing, task);
-      task.notifyListeners();
-
-      // 调用原生方法安装APK
+      // 调用原生方法跳转到系统安装界面
+      // startActivity 立即返回，true 只代表跳转成功，不代表安装完成
       final result = await _channel.invokeMethod('installApk', {
         'filePath': task.savePath,
       });
 
       if (result == true) {
-        task.status = DownloadStatus.installed;
-        task.onStatusChange?.call(DownloadStatus.installed, task);
+        // 保持 completed 状态，等 App 回到前台后由生命周期监听检测真实安装结果
+        task.status = DownloadStatus.installing;
+        task.onStatusChange?.call(DownloadStatus.installing, task);
         task.notifyListeners();
-        onStatusChange?.call(true, '安装成功');
         return true;
       } else {
         task.status = DownloadStatus.completed;
-        task.error = '安装失败';
-        task.onError?.call('安装失败', task);
+        task.error = '启动安装界面失败';
+        task.onError?.call('启动安装界面失败', task);
         task.notifyListeners();
-        onStatusChange?.call(false, '安装失败');
+        onStatusChange?.call(false, '启动安装界面失败');
         return false;
       }
     } catch (e) {

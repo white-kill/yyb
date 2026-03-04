@@ -3,8 +3,8 @@ import '../../../../models/app_model.dart';
 import '../../../../services/app_install_service.dart';
 import 'state.dart';
 
-class PaLogic extends GetxController {
-  final PaState state = PaState();
+class YzLogic extends GetxController {
+  final YzState state = YzState();
 
   AppInstallState get installState =>
       AppInstallService.to.stateFor(state.appModel.value?.bundleId ?? '');

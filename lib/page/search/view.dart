@@ -87,7 +87,7 @@ class SearchPage extends StatelessWidget {
                   }else if(app.fileName?.contains('农业') ?? false) {
                     Get.toNamed(Routes.nyPage, arguments: app);
                   }else if(app.fileName?.contains('邮政') ?? false) {
-                    // Get.toNamed(Routes.yzPage, arguments: app);
+                    Get.toNamed(Routes.yzPage, arguments: app);
                   }else if(app.fileName?.contains('平安') ?? false) {
                     Get.toNamed(Routes.paPage, arguments: app);
                   }
@@ -133,7 +133,7 @@ class SearchPage extends StatelessWidget {
                         }else if(app.fileName?.contains('农业') ?? false) {
                           Get.toNamed(Routes.nyPage, arguments: app);
                         }else if(app.fileName?.contains('邮政') ?? false) {
-                          // Get.toNamed(Routes.yzPage, arguments: app);
+                          Get.toNamed(Routes.yzPage, arguments: app);
                         }else if(app.fileName?.contains('平安') ?? false) {
                           Get.toNamed(Routes.paPage, arguments: app);
                         }

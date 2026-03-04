@@ -1,24 +1,45 @@
 package com.example.app_installer_plugin
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.io.File
 
-class AppInstallerPlugin: FlutterPlugin, MethodCallHandler {
+class AppInstallerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var channel: MethodChannel
   private lateinit var flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
+  private var activity: Activity? = null
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     this.flutterPluginBinding = flutterPluginBinding
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "app_installer_plugin")
     channel.setMethodCallHandler(this)
+  }
+
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    activity = binding.activity
+  }
+
+  override fun onDetachedFromActivityForConfigChanges() {
+    activity = null
+  }
+
+  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+    activity = binding.activity
+  }
+
+  override fun onDetachedFromActivity() {
+    activity = null
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
@@ -59,19 +80,15 @@ class AppInstallerPlugin: FlutterPlugin, MethodCallHandler {
   private fun installApk(filePath: String): Boolean {
     return try {
       val file = File(filePath)
-      if (!file.exists()) {
-        return false
-      }
+      if (!file.exists()) return false
 
-      val context = flutterPluginBinding.applicationContext
+      val appContext = flutterPluginBinding.applicationContext
       val intent = Intent(Intent.ACTION_VIEW)
-      intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        // Android 7.0 及以上使用 FileProvider
         val uri = FileProvider.getUriForFile(
-          context,
-          "${context.packageName}.fileprovider",
+          appContext,
+          "${appContext.packageName}.fileprovider",
           file
         )
         intent.setDataAndType(uri, "application/vnd.android.package-archive")
@@ -80,7 +97,14 @@ class AppInstallerPlugin: FlutterPlugin, MethodCallHandler {
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
       }
 
-      context.startActivity(intent)
+      // 优先用 Activity 上下文启动，确保系统安装界面作为独立页面跳转而非 dialog 覆盖
+      val ctx: Context = activity ?: appContext
+      if (ctx is Activity) {
+        ctx.startActivity(intent)
+      } else {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        ctx.startActivity(intent)
+      }
       true
     } catch (e: Exception) {
       e.printStackTrace()

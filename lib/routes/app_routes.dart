@@ -29,5 +29,7 @@ class Routes {
 
   static const zsPage = '/zsPage';
 
+  static const yzPage = '/yzPage';
+
   
 }
