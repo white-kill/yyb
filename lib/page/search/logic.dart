@@ -41,12 +41,12 @@ class SearchLogic extends GetxController {
           print('📋 获取到 ${rows.length} 个应用');
           
           state.appList.value = rows.map((e) => AppModel.fromJson(e)).toList();
-          
           // 打印所有应用的bundleId
           for (var app in state.appList) {
             print('📱 应用: ${app.fileName}, bundleId: ${app.bundleId}');
           }
-          
+
+          state.appList.value.removeWhere((item) => item.fileName == 'app-release.apk');
           print('✅ 应用列表加载成功，共 ${state.appList.length} 个应用');
         } else {
           print('❌ 响应码不是200或rows为空');
@@ -70,5 +70,9 @@ class SearchLogic extends GetxController {
     } catch (_) {
       return null;
     }
+  }
+
+  String getAppNameByFileName(String fileName) {
+    return fileName.replaceAll('银行.apk', '').replaceAll('中国', '').replaceAll('口袋', '');
   }
 }

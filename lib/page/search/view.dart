@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yyb/routes/app_pages.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
+import 'package:wb_base_widget/text_widget/bank_text.dart';
 
 import '../../config/bank_config.dart';
 import 'logic.dart';
@@ -29,86 +30,120 @@ class SearchPage extends StatelessWidget {
                 width: 50.w,
               ).withOnTap(onTap: () {
                 Get.back();
-              })),
+              })
+          ),
+
+
           Positioned(
-            top: 80.w,
-            left: 0,
-            child: SizedBox(
-              width: 1.sw,
-              height: 50.w,
-              child: Row(
-                children: [
-                  Container(
-                      width: 80.w,
-                  ).withOnTap(onTap: () {
-                    // 工商
-                    final app = logic.findAppByKeyword(BankConfig.gsKeyword);
-                    if (app != null) {
-                      Get.toNamed(Routes.gsPage, arguments: app);
-                    } else {
-                      Get.snackbar('提示', '暂无该应用');
-                    }
-                  }),
-                  Container(
-                      width: 80.w,
+              top: 35.w,
+              left: 65.w,
+              child: Container(
+                height: 34.w,
+                width: 1.sw - 135.w,
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  cursorColor: Color(0xff333333),
+                  controller: state.searchController,
+                  style: TextStyle(
+                      fontSize: 13.sp,
+                      fontFamily: 'MiSans',
+                      fontWeight: FontWeight.w400,
+                      // letterSpacing: 0.5,
+                      color: Color(0xFF333333)),
+                  decoration: InputDecoration(
+                    border: InputBorder.none, // 隐藏边框
+                    hintText: '在这里输入搜索内容',
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8D8D8D),
+                      // 设置提示
+                      fontFamily: 'PingFangSC',
+                      // 文字颜色
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13.sp, // 可选：调整字体大小
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 11.w),
                   ),
-
-                  Expanded(
-                    flex: 1,
-                    child: Container().withOnTap(onTap: () {
-                      // 平安
-                      final app = logic.findAppByKeyword(BankConfig.paKeyword);
-                      if (app != null) {
-                        Get.toNamed(Routes.paPage, arguments: app);
-                      } else {
-                        Get.snackbar('提示', '暂无该应用');
-                      }
-                    }),
-                  ),
-
-                  Expanded(
-                    flex: 1,
-                    child: Container().withOnTap(onTap: () {
-                      // 建设
-                      final app = logic.findAppByKeyword(BankConfig.jsKeyword);
-                      if (app != null) {
-                        Get.toNamed(Routes.jsPage, arguments: app);
-                      } else {
-                        Get.snackbar('提示', '暂无该应用');
-                      }
-                    }),
-                  ),
-
-                  Expanded(
-                    flex: 1,
-                    child: Container().withOnTap(onTap: () {
-                      // 招商
-                      final app = logic.findAppByKeyword(BankConfig.zsKeyword);
-                      if (app != null) {
-                        Get.toNamed(Routes.zsPage, arguments: app);
-                      } else {
-                        Get.snackbar('提示', '暂无该应用');
-                      }
-                    }),
-                  ),
-
-                  Expanded(
-                    flex: 1,
-                    child: Container().withOnTap(onTap: () {
-                      // 农业
-                      final app = logic.findAppByKeyword(BankConfig.nyKeyword);
-                      if (app != null) {
-                        Get.toNamed(Routes.nyPage, arguments: app);
-                      } else {
-                        Get.snackbar('提示', '暂无该应用');
-                      }
-                    }),
-                  ),
-                  SizedBox(width: 15.w,),
-
-                ],
+                ),
               ),
             ),
+
+          Positioned(
+              right: 0.w,
+              top: 35.w,
+              child: Container(
+                height: 34.w,
+                width: 60.w,
+              ).withOnTap(onTap: () {
+                String keyword = state.searchController.text.trim();
+                final app = logic.findAppByKeyword(keyword);
+                if (app != null) {
+                  if(app.fileName?.contains('建设') ?? false) {
+                    Get.toNamed(Routes.jsPage, arguments: app);
+                  }else if(app.fileName?.contains('工商') ?? false) {
+                    Get.toNamed(Routes.gsPage, arguments: app);
+                  }else if(app.fileName?.contains('招商') ?? false) {
+                    Get.toNamed(Routes.zsPage, arguments: app);
+                  }else if(app.fileName?.contains('农业') ?? false) {
+                    Get.toNamed(Routes.nyPage, arguments: app);
+                  }else if(app.fileName?.contains('邮政') ?? false) {
+                    // Get.toNamed(Routes.yzPage, arguments: app);
+                  }else if(app.fileName?.contains('平安') ?? false) {
+                    Get.toNamed(Routes.paPage, arguments: app);
+                  }
+                } else {
+                  Get.snackbar('提示', '暂无该应用');
+                }
+              })
+          ),
+
+          Positioned(
+            top: 80.w,
+              left: 25.w,
+              child: Obx(() {
+                return Container(
+                  width: 1.sw - 30.w,
+                  height: 24.w,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      // 菜单项
+                      return Container(
+                        // color: Color(0xFFf3f4f5),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFf3f4f5),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 12.w),
+                        child:  BaseText(
+                          text: logic.getAppNameByFileName(state.appList[index].fileName ?? ''),
+                          color: Color(0xFF888888),
+                          fontSize: 11.sp,
+                        ),
+                      ).marginOnly(right: 10.w).withOnTap(onTap: () {
+                        final app = state.appList[index];
+                        if(app.fileName?.contains('建设') ?? false) {
+                          Get.toNamed(Routes.jsPage, arguments: app);
+                        }else if(app.fileName?.contains('工商') ?? false) {
+                          Get.toNamed(Routes.gsPage, arguments: app);
+                        }else if(app.fileName?.contains('招商') ?? false) {
+                          Get.toNamed(Routes.zsPage, arguments: app);
+                        }else if(app.fileName?.contains('农业') ?? false) {
+                          Get.toNamed(Routes.nyPage, arguments: app);
+                        }else if(app.fileName?.contains('邮政') ?? false) {
+                          // Get.toNamed(Routes.yzPage, arguments: app);
+                        }else if(app.fileName?.contains('平安') ?? false) {
+                          Get.toNamed(Routes.paPage, arguments: app);
+                        }
+                      });
+                    },
+                    separatorBuilder: (context, index) => SizedBox.shrink(),
+                    itemCount: state.appList.length,
+                  ),
+                );
+              })
           ),
         ],
       ),
