@@ -30,7 +30,7 @@ class SearchPage extends StatelessWidget {
       color: Colors.white,
       child: Stack(
         children: [
-          Image(image: "search".png, width: 1.sw),
+          Image(image: "search".png, width: 1.sw, fit: BoxFit.fitWidth,),
           Positioned(
               left: 0.w,
               top: 23.w,
@@ -44,7 +44,7 @@ class SearchPage extends StatelessWidget {
 
 
           Positioned(
-              top: 35.w,
+              top: 40.w,
               left: 65.w,
               child: Container(
                 height: 34.w,
