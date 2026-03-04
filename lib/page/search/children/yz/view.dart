@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
+import 'package:yyb/routes/app_pages.dart';
 
 import 'logic.dart';
 
@@ -50,6 +51,17 @@ class YzPage extends StatelessWidget {
               ),
             ))),
 
+        // 左侧点击区域 → 邮政银行详情（主按钮在第7行）
+        Positioned(
+          top: 230.w + 6 * 77.w,
+          left: 0,
+          right: 68.w,
+          height: 77.w,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => Get.toNamed(Routes.bankDetailPage, arguments: 'yz_detail'),
+          ),
+        ),
         Positioned(
           top: 230.w + 6 * 77.w,
           right: 23.w,

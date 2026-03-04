@@ -15,6 +15,15 @@ class SearchPage extends StatelessWidget {
   final SearchLogic logic = Get.put(SearchLogic());
   final SearchState state = Get.find<SearchLogic>().state;
 
+  static const _bankItems = [
+    {'name': '工商银行', 'keyword': '工商', 'route': Routes.gsPage},
+    {'name': '平安银行', 'keyword': '平安', 'route': Routes.paPage},
+    {'name': '招商银行', 'keyword': '招商', 'route': Routes.zsPage},
+    {'name': '建设银行', 'keyword': '建设', 'route': Routes.jsPage},
+    {'name': '农业银行', 'keyword': '农业', 'route': Routes.nyPage},
+    {'name': '邮政银行', 'keyword': '邮政', 'route': Routes.yzPage},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -99,51 +108,40 @@ class SearchPage extends StatelessWidget {
 
           Positioned(
             top: 80.w,
-              left: 25.w,
-              child: Obx(() {
-                return Container(
-                  width: 1.sw - 30.w,
-                  height: 24.w,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (context, index) {
-                      // 菜单项
-                      return Container(
-                        // color: Color(0xFFf3f4f5),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFf3f4f5),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 12.w),
-                        child:  BaseText(
-                          text: logic.getAppNameByFileName(state.appList[index].fileName ?? ''),
-                          color: Color(0xFF888888),
-                          fontSize: 11.sp,
-                        ),
-                      ).marginOnly(right: 10.w).withOnTap(onTap: () {
-                        final app = state.appList[index];
-                        if(app.fileName?.contains('建设') ?? false) {
-                          Get.toNamed(Routes.jsPage, arguments: app);
-                        }else if(app.fileName?.contains('工商') ?? false) {
-                          Get.toNamed(Routes.gsPage, arguments: app);
-                        }else if(app.fileName?.contains('招商') ?? false) {
-                          Get.toNamed(Routes.zsPage, arguments: app);
-                        }else if(app.fileName?.contains('农业') ?? false) {
-                          Get.toNamed(Routes.nyPage, arguments: app);
-                        }else if(app.fileName?.contains('邮政') ?? false) {
-                          Get.toNamed(Routes.yzPage, arguments: app);
-                        }else if(app.fileName?.contains('平安') ?? false) {
-                          Get.toNamed(Routes.paPage, arguments: app);
-                        }
-                      });
-                    },
-                    separatorBuilder: (context, index) => SizedBox.shrink(),
-                    itemCount: state.appList.length,
-                  ),
-                );
-              })
+            left: 15.w,
+            child: Container(
+              width: 1.sw - 15.w,
+              height: 24.w,
+              child: ListView.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.zero,
+                separatorBuilder: (_, __) => SizedBox.shrink(),
+                itemCount: _bankItems.length,
+                itemBuilder: (context, index) {
+                  final item = _bankItems[index];
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFf3f4f5),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 12.w),
+                    child: BaseText(
+                      text: item['keyword']!,
+                      color: Color(0xFF888888),
+                      fontSize: 11.sp,
+                    ),
+                  ).marginOnly(right: 10.w).withOnTap(onTap: () {
+                    final app = logic.findAppByKeyword(item['keyword']!);
+                    if (app != null) {
+                      Get.toNamed(item['route']!, arguments: app);
+                    } else {
+                      Get.snackbar('提示', '暂无该应用');
+                    }
+                  });
+                },
+              ),
+            ),
           ),
         ],
       ),

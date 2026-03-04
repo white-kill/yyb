@@ -98,6 +98,22 @@ class AppInstallService extends GetxService with WidgetsBindingObserver {
       return;
     }
 
+    // // 检查是否已有下载好的文件，有则直接安装跳过下载
+    // final existingPath = await _manager.getExistingApkPath(bundleId);
+    const existingPath = null;
+    if (existingPath != null) {
+      final fakeTask = DownloadTask(
+        url: url,
+        appName: app.fileName ?? '应用',
+        packageName: bundleId,
+        savePath: existingPath,
+        status: DownloadStatus.completed,
+        progress: 1.0,
+      );
+      await _triggerInstall(fakeTask, bundleId);
+      return;
+    }
+
     s.isDownloading.value = true;
     s.downloadProgress.value = 0.0;
 

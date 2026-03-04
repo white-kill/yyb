@@ -31,5 +31,5 @@ class Routes {
 
   static const yzPage = '/yzPage';
 
-  
+  static const bankDetailPage = '/bankDetailPage';
 }

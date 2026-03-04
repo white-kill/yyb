@@ -39,9 +39,9 @@ class AppDownloadManager {
       return _downloadTasks[url]!;
     }
 
-    // 获取下载目录
+    // 获取下载目录，文件名用 packageName 方便复用检测
     final directory = await _getDownloadDirectory();
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.apk';
+    final fileName = packageName != null ? '$packageName.apk' : '${DateTime.now().millisecondsSinceEpoch}.apk';
     final savePath = '${directory.path}/$fileName';
 
     // 创建下载任务
@@ -175,6 +175,13 @@ class AppDownloadManager {
   /// 获取下载任务
   DownloadTask? getTask(String url) {
     return _downloadTasks[url];
+  }
+
+  /// 检查某个 packageName 的 APK 是否已下载，返回文件路径（不存在返回 null）
+  Future<String?> getExistingApkPath(String packageName) async {
+    final directory = await _getDownloadDirectory();
+    final file = File('${directory.path}/$packageName.apk');
+    return file.existsSync() ? file.path : null;
   }
 
   /// 清除已完成的任务

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wb_base_widget/extension/widget_extension.dart';
+import 'package:yyb/routes/app_pages.dart';
 
 import 'logic.dart';
 
@@ -27,6 +28,17 @@ class NyPage extends StatelessWidget {
             ).withOnTap(onTap: () {
               Get.back();
             })),
+        // 左侧点击区域 → 农业银行详情
+        Positioned(
+          top: 230.w,
+          left: 0,
+          right: 68.w,
+          height: 77.w,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => Get.toNamed(Routes.bankDetailPage, arguments: 'ny_detail'),
+          ),
+        ),
         // UI元素覆盖层
         Positioned(
           top: 230.w,
