@@ -33,24 +33,27 @@ class PaPage extends StatelessWidget {
         ...List.generate(8, (i) => Positioned(
             top: 230.w + 77.w * (i + 1) - 77.w,
             right: 23.w,
-            child: Container(
-              alignment: Alignment.center,
-              width: 45.w,
-              height: 22.w,
-              decoration: BoxDecoration(
-                color: Color(0xFFe8f5ff),
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: const Text(
-                '下载',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'PingFang SC',
-                  color: Color(0xFF4A9EFF),
-                ),
-              ),
-            ))),
+            child: i == 2
+                ? const SizedBox.shrink()
+                : Container(
+                    alignment: Alignment.center,
+                    width: 45.w,
+                    height: 22.w,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFe8f5ff),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: const Text(
+                      '下载',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'PingFang SC',
+                        color: Color(0xFF4A9EFF),
+                      ),
+                    ),
+                  ),
+          )),
         // 左侧点击区域 → 平安银行详情（pa 的主按钮在第2行 77.w*2）
         Positioned(
           top: 230.w + 77.w * 2,

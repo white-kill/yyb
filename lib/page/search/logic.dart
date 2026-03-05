@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:wb_base_widget/extension/string_extension.dart';
 import '../../config/dio/network.dart';
 import '../../config/net_config/apis.dart';
 import '../../models/app_model.dart';
@@ -52,9 +53,14 @@ class SearchLogic extends GetxController {
           print('❌ 响应码不是200或rows为空');
         }
       } else {
+        final msg = response.statusMessage?.isNotEmpty == true
+            ? response.statusMessage!
+            : '请求失败(${response.statusCode})';
+        msg.showToast;
         print('❌ HTTP状态码不是200或响应数据为空');
       }
     } catch (e, stackTrace) {
+      "获取应用列表失败: ${e.toString()}".showToast;
       print('❌ 获取应用列表失败: $e');
       print('堆栈: $stackTrace');
     }
